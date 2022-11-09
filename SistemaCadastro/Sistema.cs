@@ -41,12 +41,7 @@ namespace SistemaCadastro
         }
 
 
-
-
-
-
-
-        private void Sistema_Load(object sender, EventArgs e)
+        void listaGenero()
         {
             ConectaBanco con = new ConectaBanco();
             DataTable tabelaDados = new DataTable();
@@ -58,7 +53,27 @@ namespace SistemaCadastro
             cbGenero.Text = "";
         }
 
+        void listaBanda()
+        {
+            ConectaBanco con = new ConectaBanco();
+            dgBandas.DataSource = con.listaBandas();
+        }
 
+
+        private void Sistema_Load(object sender, EventArgs e)
+        {
+            listaGenero();
+            listaBanda();
+        }
+
+        void limpaCampos()
+        {
+            txtnome.Text = "";
+            cbGenero.Text = "";
+            txtintegrantes.Text = "";
+            txtranking.Text = "";
+            txtnome.Focus();
+        }
         private void BtnConfirmaCadastro_Click_1(object sender, EventArgs e)
         {
             Banda  b=new Banda();
@@ -75,12 +90,15 @@ namespace SistemaCadastro
             }
             else
                 lblmsgerro.Text = conecta.mensagem;
+            listaBanda();
+            limpaCampos();
         }
 
 
         private void txtBusca_TextChanged(object sender, EventArgs e)
         {
-  
+            (dgBandas.DataSource as DataTable).
+                DefaultView.RowFilter = String.Format("nome like'{0}%'",txtBusca.Text);
         }
 
         private void btnRemoveBanda_Click(object sender, EventArgs e)
@@ -103,6 +121,11 @@ namespace SistemaCadastro
         private void bntAddGenero_Click(object sender, EventArgs e)
         {
           
+        }
+
+        private void tabBuscar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
